@@ -4,4 +4,9 @@
 .env
 
 # dependencies
-node_modules
+client/node_modules/
+server/node_modules/
+server/dist/
+client/.next/
+client/out/
+client/build
