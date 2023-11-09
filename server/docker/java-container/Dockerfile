@@ -1,0 +1,15 @@
+# Use an OpenJDK base image
+FROM openjdk:11
+
+# Set the working directory
+WORKDIR /app
+
+# Create an empty Java code file named Main.java
+RUN touch Main.java
+
+# Set the Java code as an environment variable
+ENV JAVA_CODE ""
+ENV INPUT_DATA ""
+
+# Run Java code with provided inputs
+CMD ["sh", "-c", "echo \"$JAVA_CODE\" > Main.java && echo \"$INPUT_DATA\" > input.txt && javac Main.java && java Main < input.txt"]
