@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  java-service-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile-java
+    image: java-service:latest
+
+  python-service-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile-python
+    image: python-service:latest

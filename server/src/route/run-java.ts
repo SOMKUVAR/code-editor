@@ -15,7 +15,7 @@ router.post('/run-java', (req: Request, res: Response) => {
         `JAVA_CODE=${javaCode}`,
         '-e',
         `INPUT_DATA=${inputData}`,
-        'java-code-containers'
+        'java-service'
     ]);
 
     let executionOutput = '';
@@ -34,7 +34,7 @@ router.post('/run-java', (req: Request, res: Response) => {
             res.send(`Java Output: ${executionOutput}`);
         }
         else if(code == 127) {
-            console.log(executionOutput);
+            console.error(executionOutput);
             res.status(500).send('Internal Server Error');
         } else {
             res.send(`Java Execution Error: ${executionOutput}`);

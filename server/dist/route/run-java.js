@@ -13,7 +13,7 @@ router.post('/run-java', (req, res) => {
         `JAVA_CODE=${javaCode}`,
         '-e',
         `INPUT_DATA=${inputData}`,
-        'java-code-containers'
+        'java-service'
     ]);
     let executionOutput = '';
     dockerProcess.stdout.on('data', (data) => {
@@ -28,7 +28,7 @@ router.post('/run-java', (req, res) => {
             res.send(`Java Output: ${executionOutput}`);
         }
         else if (code == 127) {
-            console.log(executionOutput);
+            console.error(executionOutput);
             res.status(500).send('Internal Server Error');
         }
         else {

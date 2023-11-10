@@ -1,0 +1,17 @@
+# Use an official Python base image
+FROM python:latest
+
+# Set the working directory
+WORKDIR /app
+
+# Create an empty Python code file named main.py
+RUN touch main.py
+
+# Set the Python code as an environment variable
+ENV PYTHON_CODE ""
+
+# Set the input data as an environment variable
+ENV INPUT_DATA ""
+
+# Run Python code with provided inputs
+CMD ["sh", "-c", "echo \"$PYTHON_CODE\" > main.py && echo \"$INPUT_DATA\" > input.txt && python main.py < input.txt"]

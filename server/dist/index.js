@@ -6,12 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const run_java_1 = __importDefault(require("./route/run-java"));
+const run_python_1 = __importDefault(require("./route/run-python"));
 const app = (0, express_1.default)();
 const port = 3001;
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cors_1.default)());
 app.use("/", run_java_1.default);
+app.use("/", run_python_1.default);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

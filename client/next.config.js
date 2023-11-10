@@ -3,4 +3,11 @@ const nextConfig = {
   reactStrictMode: true,
 }
 
-module.exports = nextConfig
+const env = {
+  BACKEND_URL: 'http://localhost:3001'
+}
+
+module.exports =  {
+  nextConfig,
+  env
+}

@@ -1,18 +1,20 @@
 import React, { useRef, MouseEvent } from "react";
-import Editor, { Monaco } from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 import { Button } from "./Button";
-import axios from "axios";
-import {useRecoilState} from 'recoil';
-import { output } from "@/atom/output";
-import { input } from "@/atom/input";
+import { useSetRecoilState, useRecoilValue, useRecoilState } from 'recoil';
+import { output, input, language, disabled } from "@/atom";
+import LanguageSelector from "./LanguageSelector";
+import { runCode } from "@/hooks/runCode";
 
 
 const App = () => {
   const editorRef = useRef<any | null>(null);
-  const [outputValue, setOutput] = useRecoilState(output);
-  const [inputValue, setInputValue] = useRecoilState(input);
-
-  function handleEditorDidMount(editor: any, monaco: Monaco) {
+  const inputValue = useRecoilValue(input);
+  const languageValue = useRecoilValue(language);
+  const [isDisabled, setIsDisabled] = useRecoilState(disabled);
+  const setOutputValue = useSetRecoilState(output);
+  
+  const handleEditorDidMount = (editor: any) =>{
     if (editor) {
       editorRef.current = editor;
     }
@@ -20,32 +22,33 @@ const App = () => {
 
   const getCodeContent = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (editorRef.current) {
-      const code = editorRef.current?.getValue();
-      try{
-        console.log(code ,inputValue);
-        const res = await axios.post('http://localhost:3001/run-java', {code, inputData : inputValue});
-        setOutput(res.data);
-      }
-      catch (err: any) {
-        console.log(err);
-      }
-      
+    if (!editorRef.current || !editorRef.current.getValue) {
+      return;
     }
+    setIsDisabled(true);
+    setOutputValue('Loading...');
+    const code = editorRef.current.getValue();
+    const res = await runCode(code, inputValue, languageValue);
+    setOutputValue(res);
+    setIsDisabled(false);
   };
 
   return (
-    <div className="h-full ">
-      <div className="flex-no-wrap border relative flex w-full items-center justify-end bg-slate-100 p-4 lg:flex-wrap lg:justify-end ">
-        <Button onClick={getCodeContent}>
-        Run
+    <div className="h-full border">
+      <div className="flex-no-wrap border relative flex w-full items-center justify-between bg-slate-100 p-4 lg:flex-wrap">
+        <div>
+        <LanguageSelector/>
+        </div>
+        <Button disabled={isDisabled} onClick={getCodeContent}>
+          Run
         </Button>
       </div>
       <Editor
         height="90vh"
-        defaultLanguage="java"
+        language={languageValue}
         defaultValue="// Start coding here..."
         onMount={handleEditorDidMount}
+        
       />
     </div>
   );
