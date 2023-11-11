@@ -1,15 +1,17 @@
 import React, { ChangeEvent } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { LANGUAGES } from '@/constant';
-import { disabled, language } from '@/atom';
+import { output, disabled, language } from '@/atom';
 
 
 const LanguageSelector = () => {
     const isDisabled = useRecoilValue(disabled);
     const [languageValue, setLanguageValue] = useRecoilState(language);
+    const setOutputContent = useSetRecoilState(output);
 
     const onChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setLanguageValue(event.target.value);
+        setOutputContent("");
     }
 
     return (

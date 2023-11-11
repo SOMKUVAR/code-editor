@@ -1,10 +1,10 @@
 import React, { useRef, MouseEvent } from "react";
 import Editor from "@monaco-editor/react";
-import { Button } from "./Button";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from 'recoil';
 import { output, input, language, disabled } from "@/atom";
-import LanguageSelector from "./LanguageSelector";
 import { runCode } from "@/hooks/runCode";
+import Button from "./Button";
+import LanguageSelector from "./LanguageSelector";
 
 
 const App = () => {
@@ -44,11 +44,13 @@ const App = () => {
         </Button>
       </div>
       <Editor
+        key={languageValue}
         height="90vh"
+        defaultLanguage="c"
         language={languageValue}
         defaultValue="// Start coding here..."
         onMount={handleEditorDidMount}
-        
+
       />
     </div>
   );

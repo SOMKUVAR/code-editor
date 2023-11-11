@@ -8,8 +8,8 @@ WORKDIR /app
 RUN touch Main.java
 
 # Set the Java code as an environment variable
-ENV JAVA_CODE ""
+ENV CODE ""
 ENV INPUT_DATA ""
 
 # Run Java code with provided inputs
-CMD ["sh", "-c", "echo \"$JAVA_CODE\" > Main.java && echo \"$INPUT_DATA\" > input.txt && javac Main.java && java Main < input.txt"]
+CMD ["sh", "-c", "echo \"$CODE\" > Main.java && echo \"$INPUT_DATA\" > input.txt && javac Main.java && java Main < input.txt"]

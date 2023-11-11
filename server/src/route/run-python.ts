@@ -1,45 +1,20 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { spawn } from 'child_process';
+import { runDockerProcess } from '../utils/doker';
 
 const router = Router();
 
 
-router.post('/run-python', (req: Request, res: Response) => {
-    const pythonCode = req.body.code; 
-    const inputData = req.body.inputData; 
+router.post('/run-python', async (req: Request, res: Response) => {
+    try {
+        const code = req.body.code;
+        const inputData = req.body.inputData;
 
-    const dockerProcess = spawn('docker', [
-        'run',
-        '--rm',
-        '-e',
-        `PYTHON_CODE=${pythonCode}`,
-        '-e',
-        `INPUT_DATA=${inputData}`,
-        'python-service'
-    ]);
-
-    let executionOutput = '';
-
-    dockerProcess.stdout.on('data', (data) => {
-        executionOutput += data;
-    });
-
-    dockerProcess.stderr.on('data', (data) => {
-        executionOutput += data;
-    });
-
-    dockerProcess.on('close', (code) => {
-        if (code === 0) {
-            // Python code executed successfully
-            res.send(`Python Output: ${executionOutput}`);
-        }
-        else if (code === 127) {
-            console.error(executionOutput);
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.send(`Python Execution Error: ${executionOutput}`);
-        }
-    });
+        const executionOutput = await runDockerProcess(code, inputData, 'python-service');
+        res.send(executionOutput);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 router.use((err: Error, req: Request, res: Response, next: NextFunction) => {

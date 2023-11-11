@@ -8,10 +8,10 @@ WORKDIR /app
 RUN touch main.py
 
 # Set the Python code as an environment variable
-ENV PYTHON_CODE ""
+ENV CODE ""
 
 # Set the input data as an environment variable
 ENV INPUT_DATA ""
 
 # Run Python code with provided inputs
-CMD ["sh", "-c", "echo \"$PYTHON_CODE\" > main.py && echo \"$INPUT_DATA\" > input.txt && python main.py < input.txt"]
+CMD ["sh", "-c", "echo \"$CODE\" > main.py && echo \"$INPUT_DATA\" > input.txt && python main.py < input.txt"]

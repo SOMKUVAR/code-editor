@@ -1,0 +1,14 @@
+# Use an official GCC base image
+FROM gcc:latest
+
+# Set the working directory
+WORKDIR /app
+
+# Set default C code (you can replace this with your actual code)
+ENV CODE "int main() { printf(\"Hello, Docker!\\n\"); return 0; }"
+
+# Set default input data (you can replace this with your actual input)
+ENV INPUT_DATA ""
+
+# Compile and run the C code with provided inputs
+CMD ["sh", "-c", "echo \"$CODE\" > main.c && echo \"$INPUT_DATA\" > input.txt && gcc -o main main.c && ./main < input.txt"]

@@ -12,3 +12,21 @@ services:
       context: .
       dockerfile: Dockerfile-python
     image: python-service:latest
+    
+  c-service-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile-c
+    image: c-service:latest
+
+  cpp-service-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile-cpp
+    image: cpp-service:latest
+
+  javascript-service-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile-javascript
+    image: javascript-service:latest

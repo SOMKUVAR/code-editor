@@ -1,0 +1,17 @@
+# Use an official Node.js base image
+FROM node:latest
+
+# Set the working directory
+WORKDIR /app
+
+# Create an empty JavaScript file named main.js
+RUN touch main.js
+
+# Set the JavaScript code as an environment variable
+ENV CODE ""
+
+# Set the input data as an environment variable
+ENV INPUT_DATA ""
+
+# Run the JavaScript code with provided inputs
+CMD ["sh", "-c", "echo \"$CODE\" > main.js && echo \"$INPUT_DATA\" > input.txt && node main.js < input.txt"]
